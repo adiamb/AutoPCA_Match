@@ -4,12 +4,16 @@ DF=fread(arg[1], header = T)#
 names(DF)[1:3] = c('ID1', 'ID2', 'DX')
 Ncontrols = arg[2]
 Outfile = paste0(arg[3])
-if(c('data.table') %in% installed.packages()){
-  require(data.table);require(ggplot2)
+PackList = rownames(installed.packages())
+## check for reqd for packages else install if not found
+if('data.table' %in%  PackList & 'ggplot2' %in% PackList){
+  require(data.table)
+  require(ggplot2)
 } else {
-  install.packages()
+  install.packages('data.table')
+  install.packages('ggplot2')
 }
-require(data.table);require(ggplot2)
+
 ### this function should calculate the EUCL Distance expects a single query and many subjects
 Eucl.Dist=function(Query.DF, Subject.DF){
   dist.one=function(x1, x2){
