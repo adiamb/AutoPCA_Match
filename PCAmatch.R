@@ -1,11 +1,13 @@
 PackList = rownames(installed.packages())
 ## check for reqd for packages else install if not found
-if('data.table' %in%  PackList & 'ggplot2' %in% PackList){
+if('data.table' %in%  PackList & 'ggplot2' %in% PackList & 'stringr' %in% PackList ){
   require(data.table)
   require(ggplot2)
+  require(stringr)
 } else {
   install.packages('data.table')
   install.packages('ggplot2')
+  install.packages('stringr')
 }
 arg=commandArgs(trailingOnly = T)
 DF=fread(arg[1], header = T)# 
@@ -67,5 +69,10 @@ DF$DX2 = ifelse(DF$ID1 %in%  unique(Case.Control.Master$CONTROLID), 'MATCHED.CON
 p=ggplot(DF[!is.na(DX2)], aes(C1, C2, color = DX2))+geom_point(alpha=0.6)
 ggsave(p, filename = paste0(Outfile, ".png"), dpi = 400, device = "png", units = "in", width = 8, height = 5)
 ## write the file to disk
-fwrite(DF[!is.na(DX2)], file = paste0(Outfile, ".csv"))
+IDs=as.data.frame(str_split(DF$ID1, pattern = ","))
+names(IDs) = c('ID1', 'ID2')
+DF[, ID1:=NULL]
+IDS_DF=cbind.data.frame(IDs, DF)
+                                               
+fwrite(IDS_DF[!is.na(DX2)], file = paste0(Outfile, ".csv"))
 
