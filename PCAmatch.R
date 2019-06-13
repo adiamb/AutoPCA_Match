@@ -73,6 +73,6 @@ IDs=as.data.frame(str_split(DF$ID1, pattern = ","))
 names(IDs) = c('ID1', 'ID2')
 DF[, ID1:=NULL]
 IDS_DF=cbind.data.frame(IDs, DF)
-                                               
+setDT(IDS_DF)                                          
 fwrite(IDS_DF[!is.na(DX2)], file = paste0(Outfile, ".csv"))
 
