@@ -9,7 +9,9 @@ if('data.table' %in%  PackList & 'ggplot2' %in% PackList){
 }
 arg=commandArgs(trailingOnly = T)
 DF=fread(arg[1], header = T)# 
-names(DF)[1:4] = c('ID1', 'DX', 'C1', 'C2')
+names(DF)[1:5] = c('ID1', 'ID2','DX', 'C1', 'C2')
+DF$ID1 = paste0(DF$ID1, ",", DF$ID2)
+DF[, ID2 := NULL]
 Ncontrols = arg[2]
 Outfile = paste0(arg[3])
 ### this function should calculate the EUCL Distance expects a single query and many subjects
