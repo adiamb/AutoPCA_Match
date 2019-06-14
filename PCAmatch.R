@@ -69,7 +69,7 @@ DF$DX2 = ifelse(DF$ID1 %in%  unique(Case.Control.Master$CONTROLID), 'MATCHED.CON
 p=ggplot(DF[!is.na(DX2)], aes(C1, C2, color = DX2))+geom_point(alpha=0.6)
 ggsave(p, filename = paste0(Outfile, ".png"), dpi = 400, device = "png", units = "in", width = 8, height = 5)
 ## write the file to disk
-IDs=as.data.frame(str_split(DF$ID1, pattern = ","))
+IDs=as.data.frame(str_split(DF$ID1, pattern = ",", simplify=T))
 names(IDs) = c('ID1', 'ID2')
 DF[, ID1:=NULL]
 IDS_DF=cbind.data.frame(IDs, DF)
